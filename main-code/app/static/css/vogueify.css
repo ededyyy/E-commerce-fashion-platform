@@ -1,0 +1,374 @@
+/*initial value for margin,padding and border*/
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+
+/*set for fonts*/
+@font-face {
+    font-family: alex;
+    src: url("../font/AlexBrush-Regular.ttf");
+}
+
+@font-face {
+    font-family: mont;
+    src: url("../font/Montserrat-Medium.otf");
+}
+
+@font-face {
+    font-family: play;
+    src: url("../font/PlayfairDisplay-Regular.otf");
+}
+
+.alex {
+    font-family: "alex";
+}
+
+.mont {
+    font-family: "mont";
+}
+
+.play {
+    font-family: "play";
+}
+
+/*set for all pages*/
+a,
+a:hover {
+    text-decoration: none;
+}
+
+div .line {
+    border-bottom: 1.5px solid gray;
+}
+
+div .line-90-light {
+    border-bottom: 1.5px solid lightgray;
+}
+
+.blacka,
+.blacka:hover {
+    color: black;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0 !important;
+}
+
+li {
+    list-style-type: none;
+}
+
+.btn-link {
+    text-decoration: none;
+    color: black;
+}
+
+.btn-link:hover {
+    color: black;
+}
+
+button:focus,
+input:focus,
+textarea:focus,
+select:focus,
+a:focus {
+    box-shadow: none !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border: 1.5px solid black !important;
+}
+
+.form-check-input:checked {
+    background-color: black;
+    border-color: black;
+}
+
+.form-check-input:checked::before {
+    color: white;
+}
+
+.hover-gray:hover {
+    color: gray !important;
+    border-color: gray !important;
+    background: white !important;
+}
+
+/*set for navigation bar*/
+.navbar-brand {
+    position: absolute !important;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+}
+
+@media (min-width: 768px) {
+    .navbar-brand {
+        font-size: 36px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .navbar-brand {
+        font-size: 40px;
+    }
+}
+
+.nav-item {
+    margin: 0 10px;
+}
+
+.sub-navbar {
+    background-color: black;
+}
+
+.sub-navbar .nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    transition: transform 0.2s;
+}
+
+.sub-navbar .nav-link:hover {
+    transform: scale(1.1);
+}
+
+#scrollToTop {
+    position: fixed;
+    right: 2%;
+    bottom: 5%;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: opacity 0.3s;
+}
+
+#scrollToTop img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+#scrollToTop:hover {
+    background-color: #f0f0f0;
+}
+
+@media (max-width: 767px) {
+    #scrollToTop {
+        width: 2.5rem;
+        height: 2.5rem;
+        bottom: 1.5rem;
+        right: 1.5rem;
+    }
+
+    #scrollToTop img {
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+}
+
+/*set for footer*/
+div .line-90 {
+    width: 90%;
+    border-bottom: 1.5px solid gray;
+}
+
+.footerdiv {
+    text-align: center;
+    padding: 20px;
+}
+
+.footerExplore {
+    text-align: center;
+}
+
+.footerul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-item {
+    margin: 10px 0;
+}
+
+.footer-link {
+    text-decoration: none;
+    font-size: 1rem;
+    position: relative;
+}
+
+/*underline for hover the link*/
+.footer-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 1.5px;
+    background-color: #000;
+    transition: width 0.3s ease;
+}
+
+.footer-link:hover::after {
+    width: 100%;
+}
+
+.footer-brand {
+    font-size: 3rem;
+}
+
+.pay-method {
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+#signInAdminButton {
+    width: 100%;
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+    .footer-brand {
+        font-size: 1.5rem;
+        position: relative;
+        bottom: 0;
+    }
+}
+
+/*set for home page*/
+div .new {
+    margin-top: 20%;
+}
+
+/*set for cart page*/
+.cart-container-none {
+    padding: 10%;
+}
+
+/*hide default plus and minus*/
+input[type="number"] {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/*set for customer display products pages*/
+.customer-card img {
+    cursor: pointer;
+}
+
+.btn-cart {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #000;
+}
+
+/*set for admin pages*/
+/*set for navigation of admin*/
+.nav-link.play.active {
+    border-bottom: 1.5px solid #ffffff;
+    padding-bottom: 2px;
+}
+
+/*admin product management setting*/
+.product-name,
+.product-description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admin_product .card .card-img-top {
+    height: 25vh;
+    width: 100%;
+    object-fit: cover;
+}
+
+.admin_product .card {
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin_product .card .card-body {
+    flex: 1;
+}
+
+.admin_product .card .card-footer {
+    background: #ffffff;
+}
+
+/*admin order management setting*/
+.btn-order:hover {
+    text-decoration: underline;
+}
+
+/*set for pagination*/
+.pagination {
+    margin: 20px 0;
+}
+
+.pagination .page-item .page-link {
+    color: black;
+    background-color: white;
+    border: 1px solid #ddd;
+    margin: 0 2px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination .page-item .page-link:hover {
+    color: white;
+    background-color: grey;
+    border-color: grey;
+}
+
+.pagination .page-item.active .page-link {
+    color: white;
+    background-color: black;
+    border-color: black;
+}
+
+.pagination .page-item:not(.disabled) .page-link[aria-label="Previous"],
+.pagination .page-item:not(.disabled) .page-link[aria-label="Next"] {
+    color: black;
+}
+
+.pagination .page-item.disabled .page-link[aria-label="Previous"],
+.pagination .page-item.disabled .page-link[aria-label="Next"] {
+    color: black;
+    background-color: white;
+    border-color: #ddd;
+}
+
+.pagination .page-item:not(.disabled) .page-link[aria-label="Previous"]:hover,
+.pagination .page-item:not(.disabled) .page-link[aria-label="Next"]:hover {
+    color: white;
+}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}
+Vogueify - Home
+{% endblock %}
+
+{% block content %}
+<div class="container my-3">
+    <div id="homeCarousel" class="carousel slide mx-auto" data-bs-interval="false">
+        <!--indicators-->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+                aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <!--carousel items-->
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <a href="/handbags">
+                    <img src="../static/img/home-bag.jpg" class="d-block w-100" alt="Image 1">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="/jewellery">
+                    <img src="../static/img/home-jewellery.jpg" class="d-block w-100" alt="Image 2">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="/clothing">
+                    <img src="../static/img/home-clothing.jpg" class="d-block w-100" alt="Image 3">
+                </a>
+            </div>
+        </div>
+        <!--navigation-->
+        <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev"
+            aria-label="Previous Slide">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next"
+            aria-label="Next Slide">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
+</div>
+<!--gifting in section-->
+<div class="gifting container my-5">
+    <div class="line mx-auto mt-3 mb-3"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <h1 class="mb-4 play mt-3">Gifting</h1>
+            <p class="mb-4 play">Discover exquisite gifts that embody luxury, sophistication, and timeless elegance</p>
+            <a href="/gifting" class="btn btn-dark play mb-4">Shop Gifting</a>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                {% for i in range(3 - gifting_products|length) %}
+                <div class="col-4 mb-3"></div>
+                {% endfor %}
+                {% for product in gifting_products %}
+                <div class="col-4 mb-3">
+                    <img src="{{ product.img_url }}" class="d-block w-100" alt="{{ product.name }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div id="cookie-banner"
+    style="position: fixed; bottom: 0; left: 0; right: 0; background: #333; color: #fff; padding: 10px; text-align: center; {% if not show_banner %}display: none;{% endif %}">
+    <p>This website uses cookies to improve your experience.</p>
+    <a href="https://www.cookiesandyou.com/" target="_blank" style="color: #fff; text-decoration: underline;">Learn
+        More</a>
+    <button id="accept-cookie" class="btn-link"
+        style="margin-left: 20px; padding: 5px 10px; color: #fff; background: none; border: none; cursor: pointer;">
+        Accept
+    </button>
+    <button id="decline-cookie" class="btn-link"
+        style="margin-left: 20px; padding: 5px 10px; color: #fff; background: none; border: none; cursor: pointer;">
+        Decline and Continue
+    </button>
+</div>
+
+{% endblock %}

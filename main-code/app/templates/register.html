@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}
+Vogueify - Register
+{% endblock %}
+
+{% block content %}
+<div class="container-md my-5 w-50 mx-auto">
+    <h1 class="play text-center mb-4">Register</h1>
+    <div class="line mt-4 mb-4 mx-auto"></div>
+    <form id="registerForm">
+        <div class="mb-4">
+            <label for="username" class="form-label mont">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="mb-4">
+            <label for="password" class="form-label mont">Password
+                <i class="fa-regular fa-eye-slash toggle-password" style="color: #000000; cursor: pointer;"></i>
+            </label>
+            <input type="password" class="form-control" id="password" name="password" required>
+            <small class="form-text text-muted mont">
+                Your password must be eight characters or more and contain at least both an uppercase letter and a
+                number.
+            </small>
+        </div>
+        <div class="mb-4">
+            <label for="confirm_password" class="form-label mont">Confirm password
+                <i class="fa-regular fa-eye-slash toggle-password" style="color: #000000; cursor: pointer;"></i>
+            </label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+        </div>
+        <div class="mb-4">
+            <label for="firstname" class="form-label mont">First Name</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" required>
+        </div>
+        <div class="mb-4">
+            <label for="lastname" class="form-label mont">Last Name</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" required>
+        </div>
+        <div class="mb-4">
+            <label for="email" class="form-label mont">Email</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="email" name="email" required>
+                <button class="btn btn-outline-secondary mont" type="button" id="getCode">Get Code</button>
+            </div>
+            <div id="verificationSection">
+                <div class="mt-3">
+                    <input type="text" class="form-control" id="verificationCode" placeholder="Enter verification code"
+                        required>
+                </div>
+            </div>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-dark text-white mont">Create an Account</button>
+        </div>
+    </form>
+    <!-- log in link -->
+    <div class="text-center mt-4">
+        <p>Already have an account? <a href="{{ url_for('log_in_password') }}"
+                class="text-decoration-underline blacka">Log
+                in
+                now</a></p>
+    </div>
+</div>
+{% endblock %}

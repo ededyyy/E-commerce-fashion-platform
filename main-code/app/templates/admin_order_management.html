@@ -1,0 +1,101 @@
+{% extends "admin_base.html" %}
+{% set active_page = 'order_management' %}
+{% block title %}
+Vogueify - Admin-Order Management
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4 play">Order Management</h2>
+    <div class="line-90-light mt-2 mb-4 mx-auto"></div>
+    <div class="container">
+        {% if orders %}
+        <table class="table table-striped">
+            <thead>
+                <tr class="table-light">
+                    <th class="mont">Order Number</th>
+                    <th class="mont">Product Information</th>
+                    <th class="mont">Total Price</th>
+                    <th class="mont">Status</th>
+                    <th class="mont">Address</th>
+                    <th class="mont">Create Time</th>
+                    <th class="mont">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td class="mont">#{{ order.order_number }}</td>
+                    <td class="mont">
+                        {% for item in order.items %}
+                        {{ item.product.name }} (x{{ item.quantity }}){% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td class="mont">¥{{ "{:,.0f}".format(order.total_price) }}</td>
+                    <td class="mont">{{ order.status }}
+                        {% if order.status == 'Refund and Return' %}
+                        {% if order.refund_processed %}
+                        {% if order.refund_accepted %}
+                        (Accepted)
+                        {% else %}
+                        (Rejected)
+                        {% endif %}
+                        {% else %}
+                        (Pending)
+                        {% endif %}
+                        {% endif %}
+                    </td>
+                    <td class="mont">
+                        {{ order.address.street }}, {{ order.address.city }}, {{ order.address.province }}, {{
+                        order.address.country }}
+                    </td>
+                    <td class="mont">{{ order.create_time }}</td>
+                    <td class="mont">
+                        {% if order.status == 'Refund and Return' %}
+                        {% if not order.refund_processed %}
+                        <button class="btn btn-link btn-sm btn-order"
+                            onclick="processRefund({{ order.id }}, true)">Accept Refund</button>
+                        <button class="btn btn-link btn-sm btn-order" data-bs-toggle="modal"
+                            data-bs-target="#rejectReasonModal" data-order-id="{{ order.id }}">Reject Refund</button>
+                        {% endif %}
+                        {% elif order.status == 'Pending Shipment' %}
+                        <button class="btn btn-link btn-sm btn-order" onclick="shipOrder({{ order.id }})">Ship</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="text-center">
+            <i class="fa-solid fa-receipt mt-3" style="font-size: 4rem; color: gray;"></i>
+            <p class="mb-3 fs-4 play mt-3">No Orders Yet</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<!--for reject refund-->
+<div class="modal fade" id="rejectReasonModal" tabindex="-1" aria-labelledby="rejectReasonModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectReasonModalLabel">Reject Refund</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="rejectReasonForm">
+                    <div class="mb-3">
+                        <label for="rejectReason" class="form-label">Reject Reason</label>
+                        <textarea id="rejectReason" class="form-control" rows="3" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-dark" id="submitRejectReason">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "admin_base.html" %}
+{% set active_page = 'customer_management' %}
+{% block title %}
+Vogueify - Admin-Customer Management
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4 play">Customer Management</h2>
+    <div class="line-90-light mt-2 mb-4 mx-auto"></div>
+    <div class="container">
+        {% if customers %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="mont">Username</th>
+                    <th class="mont">Last Name</th>
+                    <th class="mont">First Name</th>
+                    <th class="mont">Email</th>
+                    <th class="mont">Order Count (no refund&return)</th>
+                    <th class="mont">Refund&return Count</th>
+                    <th class="mont">Register Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td class="mont">{{ customer.username }}</td>
+                    <td class="mont">{{ customer.lastname }}</td>
+                    <td class="mont">{{ customer.firstname }}</td>
+                    <td class="mont">{{ customer.email }}</td>
+                    <td class="mont">
+                        {% set valid_orders = customer.orders|rejectattr('status', 'eq', 'Refund and
+                        Return')|rejectattr('refund_processed', 'eq', true)|list %}
+                        {{ valid_orders|length }}
+                    </td>
+                    <td class="mont">
+                        {% set refund_orders = customer.orders|selectattr('status', 'eq', 'Refund and Return')|list %}
+                        {{ refund_orders|length }}
+                    </td>
+                    <td class="mont">{{ customer.register_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="text-center">
+            <i class="fa-solid fa-users mt-3" style="font-size: 4rem; color: gray;"></i>
+            <p class="mb-3 fs-4 play mt-3">No Customers Yet</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

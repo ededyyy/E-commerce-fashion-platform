@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="../static/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/vogueify.css">
+    <link rel="stylesheet" href="../static/fontawesome-free-6.7.1-web/css/all.min.css">
+</head>
+
+<body>
+    <!--nav section-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid d-flex align-items-center">
+            <!-- navbar toggler-->
+            <a class="navbar-brand mx-auto alex" href="{{ url_for('home') }}">Vogueify</a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars" style="color: #ffffff;"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <form class="d-flex me-auto mt-3" action="{{ url_for('search') }}" method="GET">
+                    <input class="form-control me-2" type="search" placeholder="Search for product" aria-label="Search"
+                        name="query" required>
+                    <button class="btn btn-light" type="submit">Search</button>
+                </form>
+                <!--nav menu-->
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ 'account' if session.get('customer_id') else 'log_in_password' }}"
+                            title="account">
+                            <i class="fa-regular fa-user" style="color: #ffffff;"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ 'cart' if session.get('customer_id') else 'log_in_password' }}"
+                            title="shopping cart">
+                            <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ 'order' if session.get('customer_id') else 'log_in_password' }}"
+                            title="orders">
+                            <i class="fa-solid fa-receipt" style="color: #ffffff;"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--sub navigation-->
+    <div class="sub-navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!--carousel for small screens-->
+            <div id="navbarLinksCarousel" class="carousel slide d-md-none" data-bs-interval="false">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <ul class="nav justify-content-center py-2">
+                            <li class="nav-item">
+                                <a class="nav-link play {% if active_page == 'gifting' %}active{% endif %}"
+                                    href="{{ url_for('gifting') }}">Gifting</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link play {% if active_page == 'handbags' %}active{% endif %}"
+                                    href="{{ url_for('handbags') }}">Handbags</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link play {% if active_page == 'clothing' %}active{% endif %}"
+                                    href="{{ url_for('clothing') }}">Clothing</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="carousel-item">
+                        <ul class="nav justify-content-center py-2">
+                            <li class="nav-item">
+                                <a class="nav-link play {% if active_page == 'accessories' %}active{% endif %}"
+                                    href="{{ url_for('accessories') }}">Accessories</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link play {% if active_page == 'jewellery' %}active{% endif %}"
+                                    href="{{ url_for('jewellery') }}">Jewellery</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--carousel set (only visible on small screens)-->
+                <button class="carousel-control-prev" type="button" data-bs-target="#navbarLinksCarousel"
+                    data-bs-slide="prev" aria-label="Previous Slide">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#navbarLinksCarousel"
+                    data-bs-slide="next" aria-label="Next Slide">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+            </div>
+            <!--links displayed normally on larger screens (hidden on small screens)-->
+            <ul class="nav justify-content-center py-2 d-none d-md-flex">
+                <li class="nav-item">
+                    <a class="nav-link play {% if active_page == 'gifting' %}active{% endif %}"
+                        href="{{ url_for('gifting') }}">Gifting</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link play {% if active_page == 'handbags' %}active{% endif %}"
+                        href="{{ url_for('handbags') }}">Handbags</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link play {% if active_page == 'clothing' %}active{% endif %}"
+                        href="{{ url_for('clothing') }}">Clothing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link play {% if active_page == 'accessories' %}active{% endif %}"
+                        href="{{ url_for('accessories') }}">Accessories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link play {% if active_page == 'jewellery' %}active{% endif %}"
+                        href="{{ url_for('jewellery') }}">Jewellery</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--other body content-->
+    <div>
+        {% block content %}{% endblock %}
+    </div>
+    <!--scroll to top button-->
+    <button id="scrollToTop" title="Go to top" aria-label="Go to top">
+        <i class="fas fa-angle-up"></i>
+    </button>
+    <!--footer section-->
+    <div class="footerdiv">
+        <div class="line mx-auto mt-5 mb-5 line-90"></div>
+        <div class="alex footer-brand text-center">Vogueify</div>
+        <div class="footerExplore">
+            <h5 class="play text-center">Explore More</h4>
+                <ul class="footerul list-unstyled d-flex flex-wrap justify-content-center gap-3">
+                    <li class="footer-item">
+                        <a class="footer-link play blacka" href="{{ url_for('gifting') }}">Gifting</a>
+                    </li>
+                    <li class="footer-item">
+                        <a class="footer-link play blacka" href="{{ url_for('handbags') }}">Handbags</a>
+                    </li>
+                    <li class="footer-item">
+                        <a class="footer-link play blacka" href="{{ url_for('clothing') }}">Clothing</a>
+                    </li>
+                    <li class="footer-item">
+                        <a class="footer-link play blacka" href="{{ url_for('accessories') }}">Accessories</a>
+                    </li>
+                    <li class="footer-item">
+                        <a class="footer-link play blacka" href="{{ url_for('jewellery') }}">Jewellery</a>
+                    </li>
+                </ul>
+        </div>
+        <div class="line mx-auto mt-5 mb-5 line-90"></div>
+        <div class="pay-method">
+            <i class="fa-brands fa-paypal"></i>
+            <i class="fa-brands fa-google-pay"></i>
+            <i class="fa-brands fa-apple-pay"></i>
+            <i class="fa-brands fa-cc-visa"></i>
+        </div>
+        <small class="play d-block text-center">All rights reserved.</small>
+        <button class="btn btn-dark btn-sm play d-block mx-auto mt-3 admin-modal" data-bs-toggle="modal"
+            data-bs-target="#signInModalAdmin">
+            Admin Sign In
+        </button>
+        <!--modal for admin sign in-->
+        <div class="modal fade" id="signInModalAdmin" tabindex="-1" aria-labelledby="signInModalAdminLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title play" id="signInModalAdminLabel">Admin Sign In</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="signInAdminForm" method="POST" action="/sign_in_admin">
+                            <div class="form-group">
+                                <label for="signin_admin_username" class="form-label mont">Username</label>
+                                <input type="text" class="form-control" id="signin_admin_username" name="admin_username"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signin_admin_password" class="form-label mont">Password</label>
+                                <input type="password" class="form-control" id="signin_admin_password"
+                                    name="admin_password" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark play" id="signInAdminButton"
+                            form="signInAdminForm">Sign In</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--toast to show infomation-->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+                data-bs-autohide="true" data-bs-delay="2000">
+                <div class="toast-body">
+                    Successfully add to cart!
+                </div>
+            </div>
+        </div>
+        <script src="../static/jquery/jquery-3.7.1.min.js"></script>
+        <script src="../static/bootstrap/bootstrap.min.js"></script>
+        <script src="../static/js/scroll.js"></script>
+        <script src="../static/js/customerResister.js"></script>
+        <script src="../static/js/password.js"></script>
+        <script src="../static/js/login_admin.js"></script>
+        <script src="../static/js/login_code.js"></script>
+        <script src="../static/js/log_in_password.js"></script>
+        <script src="../static/js/update_customer.js"></script>
+        <script src="../static/js/add_cart.js"></script>
+        <script src="../static/js/cart_page.js"></script>
+        <script src="../static/js/order.js"></script>
+        <script src="../static/js/cookie.js"></script>
+</body>
+
+</html>

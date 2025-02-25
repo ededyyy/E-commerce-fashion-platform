@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+
+{% block title %}
+Vogueify - Account
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid container-md my-5 w-50 mx-auto">
+    <h6 class="mont text-center mb-3 text-muted">WELCOME TO YOUR ACCOUNT, {{ customer.username }}</h6>
+    <h1 class="play text-center mb-4">Account</h1>
+    <div class="line-90-light mt-3 mb-3 mx-auto"></div>
+
+    <!-- Personal Information Section -->
+    <div class="AccountDetails1__item">
+        <h4 class="AccountDetails1__subTitle play">Personal Information</h4>
+        <div class="AccountDetailsSection1">
+            <ul class="AccountDetailsSection1__infoList">
+                <li class="AccountDetailsSection1__infoItem AccountDetailsSection1__infoItem--withBullets">
+                    <ul class="AccountDetails1__fullName">
+                        <li class="mont">Username: {{ customer.username }}</li>
+                        <li class="mont">First Name: {{ customer.firstname }}</li>
+                        <li class="mont">Last Name: {{ customer.lastname }}</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="AccountDetailsSection1__actions">
+                <button class="AccountDetails1__edit btn btn-link" data-bs-toggle="modal"
+                    data-bs-target="#editPersonalInfoModal">Edit</button>
+            </div>
+        </div>
+    </div>
+    <div class="line-90-light mt-3 mb-3 mx-auto"></div>
+
+    <!-- Email Section -->
+    <div class="AccountDetails1__item">
+        <h4 class="AccountDetails1__subTitle play">Email</h4>
+        <div class="AccountDetailsSection1">
+            <ul class="AccountDetailsSection1__infoList">
+                <li class="AccountDetailsSection1__infoItem AccountDetailsSection1__infoItem--withBullets mont">
+                    {{ customer.email }}
+                </li>
+            </ul>
+            <div class="AccountDetailsSection1__actions">
+                <button class="AccountDetails1__edit btn btn-link" data-bs-toggle="modal"
+                    data-bs-target="#editEmailModal">Edit</button>
+            </div>
+        </div>
+    </div>
+    <div class="line-90-light mt-3 mb-3 mx-auto"></div>
+
+    <!-- Password Section -->
+    <div class="AccountDetails1__item mt-4">
+        <h4 class="AccountDetails1__subTitle play">Password</h4>
+        <div class="AccountDetailsSection1">
+            <ul class="AccountDetailsSection1__infoList">
+                <li class="AccountDetailsSection1__infoItem AccountDetailsSection1__infoItem--withBullets">
+                    ●●●●●●●●
+                </li>
+            </ul>
+            <div class="AccountDetailsSection1__actions">
+                <button class="AccountDetails1__edit btn btn-link" data-bs-toggle="modal"
+                    data-bs-target="#editPasswordModal">Edit</button>
+            </div>
+        </div>
+    </div>
+    <div class="line-90-light mt-3 mb-3 mx-auto"></div>
+
+    <!-- Address Section -->
+    <div class="AccountDetails1__item mt-4">
+        <h4 class="AccountDetails1__subTitle play">Addresses</h4>
+        <div class="AccountDetailsSection1">
+            <ul class="AccountDetailsSection1__infoList">
+                {% if customer.addresses %}
+                {% for address in customer.addresses %}
+                {% if not address.is_deleted %}
+                <li class="AccountDetailsSection1__infoItem AccountDetailsSection1__infoItem--withBullets mont">
+                    {{ address.street }}, {{ address.city }}, {{ address.province }}, {{ address.country }}
+                    <button class="btn btn-link" data-bs-toggle="modal" data-bs-target="#editAddressModal"
+                        onclick="setEditAddressData({{ address.id }})">Edit</button>
+                    <button class="btn btn-link" onclick="deleteAddress({{ address.id }})">Delete</button>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <li class="AccountDetailsSection1__infoItem AccountDetailsSection1__infoItem--withBullets mont">
+                    No addresses added.
+                </li>
+                {% endif %}
+            </ul>
+            <button class="AccountDetails1__edit btn btn-link" data-bs-toggle="modal" data-bs-target="#addAddressModal"
+                title="add address">
+                <i class="fa-solid fa-plus" style="color: #000000;"></i>
+            </button>
+        </div>
+    </div>
+    <div class="line-90-light mt-3 mb-3 mx-auto"></div>
+
+    <!-- Register Date Section -->
+    <div class="AccountDetails1__item mt-5">
+        <p class="mont">Register Date: {{ customer.register_date }}</p>
+    </div>
+
+    <!-- Log Out Button -->
+    <div class="d-grid mt-4">
+        <a href="{{ url_for('logout') }}" class="btn btn-dark text-white mont">Log Out</a>
+    </div>
+</div>
+
+<!-- Edit Personal Information Modal -->
+<div class="modal fade" id="editPersonalInfoModal" tabindex="-1" aria-labelledby="editPersonalInfoModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title play" id="editPersonalInfoModalLabel">Edit Personal Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updatePersonalInfoForm" method="POST" action="{{ url_for('update_user') }}"
+                    data-username="{{ customer.username }}" data-firstname="{{ customer.firstname }}"
+                    data-lastname="{{ customer.lastname }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label mont">Username</label>
+                        <input type="text" class="form-control" id="username" name="username"
+                            value="{{ customer.username }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="firstname" class="form-label mont">First Name</label>
+                        <input type="text" class="form-control" id="firstname" name="firstname"
+                            value="{{ customer.firstname }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastname" class="form-label mont">Last Name</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname"
+                            value="{{ customer.lastname }}" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-dark" form="updatePersonalInfoForm">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Email Modal -->
+<div class="modal fade" id="editEmailModal" tabindex="-1" aria-labelledby="editEmailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title play" id="editEmailModalLabel">Edit Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateEmailForm" method="POST" action="{{ url_for('update_email') }}"
+                    data-email="{{ customer.email }}">
+                    <div class="mb-3">
+                        <label for="email" class="form-label mont">New Email</label>
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="email" name="email"
+                                value="{{ customer.email }}" required>
+                            <button class="btn btn-outline-secondary mont" type="button" id="sendEmailCode">Send
+                                Code</button>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailCode" class="form-label mont">Verification Code</label>
+                        <input type="text" class="form-control" id="emailCode" name="code" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-dark" form="updateEmailForm">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Password Modal -->
+<div class="modal fade" id="editPasswordModal" tabindex="-1" aria-labelledby="editPasswordModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title play" id="editPasswordModalLabel">Edit Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updatePasswordForm" method="POST" action="{{ url_for('update_password') }}">
+                    <div class="mb-3">
+                        <label for="current_password" class="form-label mont">Current Password
+                            <i class="fa-regular fa-eye-slash toggle-password"
+                                style="color: #000000; cursor: pointer;"></i>
+                        </label>
+                        <input type="password" class="form-control" id="current_password" name="current_password"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_password" class="form-label mont">New Password
+                            <i class="fa-regular fa-eye-slash toggle-password"
+                                style="color: #000000; cursor: pointer;"></i>
+                        </label>
+                        <input type="password" class="form-control" id="new_password" name="new_password" required>
+                        <small class="text-muted mont">
+                            Your password must be eight characters or more and contain at least both an uppercase letter
+                            and a
+                            number.
+                        </small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_new_password" class="form-label mont">Confirm New Password
+                            <i class="fa-regular fa-eye-slash toggle-password"
+                                style="color: #000000; cursor: pointer;"></i>
+                        </label>
+                        <input type="password" class="form-control" id="confirm_new_password"
+                            name="confirm_new_password" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-dark" form="updatePasswordForm">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Address Modal -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title play" id="addAddressModalLabel">Add Address</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addAddressForm" method="POST" action="{{ url_for('add_address') }}">
+                    <div class="mb-3">
+                        <label for="country" class="form-label mont">Country</label>
+                        <input type="text" class="form-control" id="country" name="country" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="province" class="form-label mont">Province</label>
+                        <input type="text" class="form-control" id="province" name="province" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="city" class="form-label mont">City</label>
+                        <input type="text" class="form-control" id="city" name="city" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="street" class="form-label mont">Street</label>
+                        <input type="text" class="form-control" id="street" name="street" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-dark" form="addAddressForm">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Address Modal -->
+<div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title play" id="editAddressModalLabel">Edit Address</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editAddressForm" method="POST" action="{{ url_for('update_address') }}">
+                    <input type="hidden" id="edit_address_id" name="address_id">
+                    <div class="mb-3">
+                        <label for="edit_country" class="form-label mont">Country</label>
+                        <input type="text" class="form-control" id="edit_country" name="country" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_province" class="form-label mont">Province</label>
+                        <input type="text" class="form-control" id="edit_province" name="province" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_city" class="form-label mont">City</label>
+                        <input type="text" class="form-control" id="edit_city" name="city" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_street" class="form-label mont">Street</label>
+                        <input type="text" class="form-control" id="edit_street" name="street" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-dark" form="editAddressForm">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

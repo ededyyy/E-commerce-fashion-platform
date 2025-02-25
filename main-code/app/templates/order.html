@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}
+Vogueify - Order
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid container-md mx-auto">
+    <h6 class="mont text-center mb-3 mt-5 text-muted">WELCOME TO YOUR ORDERS, {{ customer.username }}</h6>
+    <h1 class="play text-center mb-4">ORDERS</h1>
+    <div class="line-90-light mt-3 mb-3 mx-auto"></div>
+</div>
+<!-- filter for order status -->
+<div class="container text-center mb-4">
+    <form method="get" action="{{ url_for('order') }}">
+        <label for="status" class="mont me-2">Order Status:</label>
+        <select name="status" id="status" class="form-select d-inline-block w-auto mont" onchange="this.form.submit()">
+            <option value="all" {% if status_filter=='all' %}selected{% endif %}>All</option>
+            <option value="Pending Payment" {% if status_filter=='Pending Payment' %}selected{% endif %}>Pending Payment
+            </option>
+            <option value="Pending Shipment" {% if status_filter=='Pending Shipment' %}selected{% endif %}>Pending
+                Shipment</option>
+            <option value="In Transit" {% if status_filter=='In Transit' %}selected{% endif %}>In
+                Transit</option>
+            <option value="Completed" {% if status_filter=='Completed' %}selected{% endif %}>Completed
+            </option>
+            <option value="Refund and Return" {% if status_filter=='Refund and Return' %}selected{% endif %}>Refund and
+                Return</option>
+        </select>
+    </form>
+</div>
+<div class="container text-center d-flex flex-column justify-content-center align-items-center">
+    {% if orders %}
+    {% for order in orders %}
+    <div class="card mb-4 w-100">
+        <div class="card-body">
+            <p class="card-title mont mb-3 text-start">Order #{{ order.order_number }}</p>
+            <div class="row">
+                <div class="col-md-8">
+                    {% for order_item in order.items %}
+                    <div class="card mb-3">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="me-3">
+                                <img src="{{ order_item.product.img_url }}" class="img-fluid"
+                                    alt="{{ order_item.product.name }}" style="width: 100px;">
+                            </div>
+                            <div class="flex-grow-1 text-start">
+                                <h5 class="card-title fw-bold mb-1 mont">{{ order_item.product.name }}</h5>
+                                <p class="card-text mont mb-1">Qty: {{ order_item.quantity }}</p>
+                                <p class="card-text play mb-0 fw-bold">
+                                    ¥{{ "{:,.0f}".format(order_item.price) }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-3 mont">Order Summary</h5>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="mont">Address:</span>
+                                <span class="mont">
+                                    {{ order.address.street }}, {{ order.address.city }}, {{ order.address.province }},
+                                    {{ order.address.country }}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="mont">Total Price:</span>
+                                <span class="mont">¥{{ "{:,.0f}".format(order.total_price) }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="mont">Status:</span>
+                                <span class="mont">{{ order.status }}</span>
+                            </div>
+                            {% if order.status == 'Pending Payment' %}
+                            <button class="btn btn-dark w-100 mb-2" onclick="payOrder({{ order.id }})">Pay</button>
+                            <button class="btn btn-outline-secondary w-100"
+                                onclick="removeOrder({{ order.id }})">Remove</button>
+                            {% elif order.status == 'Pending Shipment' %}
+                            <button class="btn btn-outline-secondary w-100"
+                                onclick="refundAndReturn({{ order.id }})">Refund
+                                and Return</button>
+                            {% elif order.status == 'In Transit' %}
+                            <button class="btn btn-dark w-100 mb-2" onclick="confirmReceipt({{ order.id }})">Confirm
+                                Receipt</button>
+                            <button class="btn btn-outline-secondary w-100"
+                                onclick="refundAndReturn({{ order.id }})">Refund
+                                and Return</button>
+                            {% elif order.status == 'Completed' %}
+                            <button class="btn btn-outline-dark w-100 mb-2"
+                                onclick="refundAndReturn({{ order.id }})">Refund and Return</button>
+                            <button class="btn btn-outline-secondary w-100"
+                                onclick="removeOrder({{ order.id }})">Remove</button>
+                            {% elif order.status == 'Refund and Return' %}
+                            {% if order.refund_processed %}
+                            {% if order.refund_accepted %}
+                            <p class="text-success small mb-0 mont">Refund and Return Completed</p>
+                            {% else %}
+                            <p class="text-muted small mb-0 mont">Refund Rejected</p>
+                            <p class="text-muted small mb-0 mont">Reason: {{ order.refund_reject_reason }}</p>
+                            {% endif %}
+                            {% else %}
+                            <p class="text-muted small mb-0 mont">Waiting for admin processing</p>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="cart-container-none">
+        <i class="fa-solid fa-receipt" style="font-size: 4rem; color: gray;"></i>
+        <p class="mb-3 fs-4 play mt-3">You don’t currently have related orders</p>
+        <p class="mb-3 fs-5 play">Once you have checked out, you can view and track your order with related status here
+        </p>
+        <a href="{{ url_for('home') }}" class="btn btn-outline-dark mont">
+            Continue Shopping
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

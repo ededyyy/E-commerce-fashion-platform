@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="../static/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/vogueify.css">
+    <link rel="stylesheet" href="../static/fontawesome-free-6.7.1-web/css/all.min.css">
+</head>
+
+<body>
+    <!--nav section-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid d-flex align-items-center">
+            <span class="navbar-brand mx-auto alex">Vogueify</span>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars" style="color: #ffffff;"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <div class="mt-3 mb-3"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!--sub navigation-->
+    <div class="sub-navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!--carousel for small screens-->
+            <div id="navbarLinksCarousel" class="carousel slide d-md-none" data-bs-interval="false">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <ul class="nav justify-content-center py-2">
+                            <li class="nav-item">
+                                <a class="nav-link play {% if active_page == 'product_management' %}active{% endif %}"
+                                    href="{{ url_for('admin_product_management') }}">Product
+                                    Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link play {% if active_page == 'order_management' %}active{% endif %}"
+                                    href="{{ url_for('admin_order_management') }}">Order
+                                    Management</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="carousel-item">
+                        <ul class="nav justify-content-center py-2">
+                            <li class="nav-item">
+                                <a class="nav-link play {% if active_page == 'customer_management' %}active{% endif %}"
+                                    href="{{ url_for('admin_customer_management') }}">Customer
+                                    Management</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--carousel set (only visible on small screens)-->
+                <button class="carousel-control-prev" type="button" data-bs-target="#navbarLinksCarousel"
+                    data-bs-slide="prev" aria-label="Previous Slide">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#navbarLinksCarousel"
+                    data-bs-slide="next" aria-label="Next Slide">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+            </div>
+            <!--links displayed normally on larger screens (hidden on small screens)-->
+            <ul class="nav justify-content-center py-2 d-none d-md-flex">
+                <li class="nav-item">
+                    <a class="nav-link play {% if active_page == 'product_management' %}active{% endif %}"
+                        href="{{ url_for('admin_product_management') }}">Product Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link play {% if active_page == 'order_management' %}active{% endif %}"
+                        href="{{ url_for('admin_order_management') }}">Order Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link play {% if active_page == 'customer_management' %}active{% endif %}"
+                        href="{{ url_for('admin_customer_management') }}">Customer Management</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--other body content-->
+    <div>
+        {% block content %}{% endblock %}
+    </div>
+    <!--scroll to top button-->
+    <button id="scrollToTop" title="Go to top" aria-label="Go to top">
+        <i class="fas fa-angle-up"></i>
+    </button>
+    <!--footer section-->
+    <div class="footerdiv">
+        <div class="line mx-auto mt-5 mb-5 line-90"></div>
+        <div class="alex footer-brand text-center">Vogueify</div>
+        <small class="play d-block text-center">All rights reserved.</small>
+        <form action="{{ url_for('logout_admin') }}" method="POST" class="d-block text-center mt-3">
+            <button type="submit" class="btn btn-dark btn-sm mont">Exit Admin</button>
+        </form>
+    </div>
+    <script src="../static/jquery/jquery-3.7.1.min.js"></script>
+    <script src="../static/bootstrap/bootstrap.min.js"></script>
+    <script src="../static/js/scroll.js"></script>
+    <script src="../static/js/admin_add_product.js"></script>
+    <script src="../static/js/admin_delete_product.js"></script>
+    <script src="../static/js/admin_edit_product.js"></script>
+    <script src="../static/js/admin_order.js"></script>
+</body>
+
+</html>

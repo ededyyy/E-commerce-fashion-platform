@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+Vogueify - Log in with Code
+{% endblock %}
+
+{% block content %}
+<div class="container-md my-5 w-50 mx-auto">
+    <h1 class="play text-center mb-4">Log In with Code</h1>
+    <div class="line mt-4 mb-4 mx-auto"></div>
+
+    <!-- Verification Code Login Form -->
+    <form id="verificationLoginForm" method="POST" action="{{ url_for('login_with_code') }}">
+        <div class="mb-4">
+            <label for="emailCode" class="form-label mont">Email</label>
+            <div class="input-group">
+                <input type="email" class="form-control" id="emailCode" name="email" required>
+                <button class="btn btn-outline-secondary mont" type="button" id="sendVerificationCode">Send
+                    Code</button>
+            </div>
+        </div>
+        <div class="mb-4" id="verificationSection">
+            <label for="verificationCode" class="form-label mont">Verification Code</label>
+            <input type="text" class="form-control" id="verificationCode" name="code" required>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-dark text-white mont">Sign In</button>
+        </div>
+    </form>
+
+    <!-- Use Password Link -->
+    <div class="text-center mt-3">
+        <a href="{{ url_for('log_in_password') }}" class="text-decoration-underline blacka">Use password?</a>
+    </div>
+
+    <!-- Register Link -->
+    <div class="text-center mt-4">
+        <p>Don't have an account? <a href="{{ url_for('register') }}" class="text-decoration-underline blacka">Register
+                now</a></p>
+    </div>
+</div>
+{% endblock %}

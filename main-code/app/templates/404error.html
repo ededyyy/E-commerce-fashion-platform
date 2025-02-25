@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+Vogueify - 404 Not Found
+{% endblock %}
+
+{% block content %}
+<div class="container text-center d-flex flex-column justify-content-center align-items-center mt-5">
+    <i class="fa-solid fa-circle-exclamation" style="font-size: 4rem; color: gray;"></i>
+    <p class="mb-3 fs-4 play mt-3">Page Not Found</p>
+    <a href="{{ url_for('home') }}" class="btn btn-outline-dark mont">
+        Redirect to home page
+    </a>
+</div>
+{% endblock %}
